@@ -1,0 +1,33 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Student create{% endblock %}
+
+{% block body %}
+    <div class="page-header page-header-default">
+        <div class="page-header-content">
+            <div class="page-title">
+                <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Students</span></h4>
+            </div>
+        </div>
+
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('homepage') }}"><i class="icon-home2 position-left"></i> Home</a></li>
+                <li class="active"><a href="{{ path('list_student') }}">Students</a></li>
+                <li class="active"><a href="{{ path('new_student') }}">New</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <h1>Student creation</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input type="submit" value="Create" />
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}

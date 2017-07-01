@@ -1,0 +1,403 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/tables/datatables/extensions/buttons.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/tables/datatables/extensions/select.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/notifications/sweet_alert.min.js') }}"></script>
+
+    <!-- Theme JS files -->
+    <script type="text/javascript" src="{{ asset('limitless/js/pages/job_list.js') }}"></script>
+{% endblock %}
+
+{% block title %}Opportunities{% endblock %}
+
+{% block body %}
+<div class="content-wrapper">
+
+    <div class="page-header page-header-default">
+        <div class="page-header-content">
+            <div class="page-title">
+                <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Opportunities</span> - List</h4>
+            </div>
+        </div>
+
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('homepage') }}"><i class="icon-home2 position-left"></i> Home</a></li>
+                <li class="active"><a href="{{ path('job_index') }}">Opportunities</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <!-- Detached sidebar -->
+        <div class="sidebar-detached">
+            <div class="sidebar sidebar-default sidebar-separate">
+                <div class="sidebar-content">
+
+                    <!-- Sidebar search -->
+                    <div class="panel panel-white">
+                        <div class="panel-heading">
+                            <div class="panel-title text-semibold">
+                                <i class="icon-search4 text-size-base position-left"></i>
+                                Filter
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <form action="#">
+                                <div class="form-group">
+                                    <div class="has-feedback has-feedback-left">
+                                        <input type="search" class="form-control" placeholder="Job title or keywords">
+                                        <div class="form-control-feedback">
+                                            <i class="icon-reading text-size-large text-muted"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    {% for jobType in jobTypes %}
+                                    <div class="checkbox">
+                                        <label class="display-block">
+                                            <input type="checkbox" class="styled">
+                                            {{ jobType.name }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+
+                                <button type="submit" class="btn bg-blue btn-block">
+                                    <i class="icon-search4 text-size-base position-left"></i>
+                                    Find opportunities
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /sidebar search -->
+
+                    <!-- Company selection -->
+                    <div class="panel panel-white">
+                        <div class="panel-heading">
+                            <div class="panel-title text-semibold">
+                                <i class="icon-briefcase3 position-left"></i>
+                                Company
+                            </div>
+
+                            <div class="heading-elements not-collapsible">
+                                <a href="#" class="heading-text">+ Add</a>
+                            </div>
+                        </div>
+
+                        <form action="#">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    {% for company in companies %}
+                                    <div class="checkbox no-margin-top">
+                                        <label>
+                                            <input type="checkbox" class="styled">
+                                            {{ company.name }}
+                                            {#<span class="text-muted text-size-small">&nbsp;(43)</span>#}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="panel-footer no-padding">
+                                <a href="#" class="btn btn-default btn-block no-border">All companies</a>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /company selection -->
+
+
+                    <!-- Specific skills -->
+                    <div class="panel panel-white">
+                        <div class="panel-heading">
+                            <div class="panel-title text-semibold">
+                                <i class="icon-stars position-left"></i>
+                                Specific topics
+                            </div>
+
+                            <div class="heading-elements not-collapsible">
+                                <a href="#" class="heading-text">+ Add</a>
+                            </div>
+                        </div>
+
+                        <form action="#">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    {% for topic in topics %}
+                                    <div class="checkbox no-margin-top">
+                                        <label>
+                                            <input type="checkbox" class="styled">
+                                            {{ topic.name }}
+                                            {#<span class="text-muted text-size-small">&nbsp;(53)</span>#}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="panel-footer no-padding">
+                                <a href="#" class="btn btn-default btn-block no-border">All skills</a>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /specific skills -->
+
+
+                    <!-- Date posted -->
+                    <div class="panel panel-white">
+                        <div class="panel-heading">
+                            <div class="panel-title text-semibold">
+                                <i class="icon-calendar3 position-left"></i>
+                                Date posted
+                            </div>
+                        </div>
+
+                        <form action="#">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <div class="radio no-margin-top">
+                                        <label>
+                                            <input type="radio" name="when_posted" class="styled">
+                                            Today
+                                            <span class="text-muted text-size-small">&nbsp;(632)</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="when_posted" class="styled">
+                                            Yesterday
+                                            <span class="text-muted text-size-small">&nbsp;(431)</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="when_posted" class="styled">
+                                            Last week
+                                            <span class="text-muted text-size-small">&nbsp;(31)</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="when_posted" class="styled">
+                                            Last month
+                                            <span class="text-muted text-size-small">&nbsp;(124)</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="radio no-margin-bottom">
+                                        <label>
+                                            <input type="radio" name="when_posted" class="styled">
+                                            Any time
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /date posted -->
+
+                </div>
+            </div>
+        </div>
+        <!-- /detached sidebar -->
+
+
+        <!-- Detached content -->
+        <div class="container-detached">
+            <div class="content-detached" style="margin-left: 280px;">
+
+                <!-- Cards layout -->
+                <ul class="media-list content-group">
+                    {% for job in jobs %}
+                    <li class="media panel panel-body stack-media-on-mobile">
+                        <div class="media-left">
+                            <a href="{{ job.createdBy.website }}">{{ job.createdBy.name }}
+                                {#<img src="assets/images/demo/brands/dell.png" class="img-rounded img-lg" alt="">#}
+                            </a>
+                        </div>
+
+                        <div class="media-body">
+                            <h6 class="media-heading text-semibold">
+                                <a href="{{ path('job_show', { 'id': job.id }) }}">{{ job.title }}</a>
+                            </h6>
+
+                            <ul class="list-inline list-inline-separate text-muted mb-10">
+                                <li><a href="{{ job.createdBy.website }}" class="text-muted">{{ job.createdBy.name }}</a></li>
+                                <li>{{ job.createdBy.location }}</li>
+                            </ul>
+                            {{ job.shortDescription }}
+                        </div>
+
+                        <div class="media-right text-nowrap">
+                            <span class="label bg-blue">New</span>
+                        </div>
+                        <div class="media-right text-nowrap">
+                            <a href="{{ path('job_edit', { 'id': job.id }) }}"><i class="icon-pencil7"></i></a>
+                            <a href="{{ path('job_delete', { 'id': job.id }) }}"><i class=" icon-trash"></i></a>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <!-- /cards layout -->
+
+            </div>
+        </div>
+        <!-- /detached content -->
+
+    </div>
+    <!-- /content area -->
+</div>
+    {#<div class="content">
+        <!-- Individual column searching (text inputs) -->
+        <div class="panel panel-flat">
+            <div class="panel-heading">
+                <h5 class="panel-title">Jobs</h5>
+                <div class="heading-elements">
+                    <ul class="icons-list">
+                        <li><a href="{{ path('job_new') }}"><i class="icon-add-to-list"></i></a></li>
+                        <li><a data-action="collapse"></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <table class="table datatable-column-search-inputs table-hover">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Short Description</th>
+                    <th>Company</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for job in jobs %}
+                    <tr data-href="{{ path('job_show', { 'id': job.id }) }}">
+                        <td>{{ job.id }}</td>
+                        <td>{{ job.title }}</td>
+                        <td>{{ job.shortDescription }}</td>
+                        <td>{{ job.createdBy.name }}</td>
+                        <td class="text-center">
+                            <ul class="icons-list">
+                                <li>
+                                    <a href="{{ path('job_edit', { 'id': job.id }) }}"><i class="icon-pencil7"></i></a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('job_delete', { 'id': job.id }) }}"><i class=" icon-trash"></i></a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td>Id</td>
+                    <td>Title</td>
+                    <td>Short Description</td>
+                    <td>Company</td>
+                    <td></td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            $("tbody tr").click(function(){
+                window.document.location = $(this).data("href");
+            });
+
+            // Table setup
+            // ------------------------------
+
+            // Setting datatable defaults
+            $.extend($.fn.dataTable.defaults, {
+                autoWidth: false,
+                columnDefs: [{
+                    orderable: false,
+                    width: '70px',
+                    targets: [7]
+                }],
+                dom: '<"datatable-header"fBl><"datatable-scroll-wrap"t><"datatable-footer"ip>',
+                language: {
+                    search: '<span>Filter:</span> _INPUT_',
+                    lengthMenu: '<span>Show:</span> _MENU_',
+                    paginate: {'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;'}
+                },
+                drawCallback: function () {
+                    $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
+                },
+                preDrawCallback: function () {
+                    $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
+                }
+            });
+
+            // Individual column searching with text inputs
+            $('.datatable-column-search-inputs tfoot td').not(':last-child').each(function () {
+                var title = $('.datatable-column-search-inputs thead th').eq($(this).index()).text();
+                $(this).html('<input type="text" class="form-control input-sm" placeholder="Search ' + title + '" />');
+            });
+
+            $('.datatable-column-search-inputs').DataTable({
+                initComplete: function() {
+                    this.api().columns().every(function () {
+                        var that = this;
+                        $('input', this.footer()).on('keyup change', function () {
+                            that.search(this.value).draw();
+                        });
+                    });
+                },
+                buttons: [
+                    {
+                        extend: 'colvis',
+                        className: 'btn btn-default'
+                    }
+                ]
+                /*rowReorder: {
+                 selector: 'tr'
+                 },
+                 columnDefs: [
+                 { targets: 0, visible: false }
+                 ],*/
+            });
+
+
+            // This sets the default sort column and order
+            var oTable = $(".datatable-column-search-inputs").dataTable();
+            oTable.fnSort([0,'desc']);
+
+            // External table additions
+            // ------------------------------
+
+            // Launch Uniform styling for checkboxes
+            $('.ColVis_Button').addClass('btn btn-primary btn-icon').on('click mouseover', function() {
+                $('.ColVis_collection input').uniform();
+            });
+
+            // Add placeholder to the datatable filter option
+            $('.dataTables_filter input[type=search]').attr('placeholder', 'Type to filter...');
+
+
+            // Enable Select2 select for the length option
+            $('.dataTables_length select').select2({
+                minimumResultsForSearch: Infinity,
+                width: 'auto'
+            });
+
+            // Enable Select2 select for individual column searching
+            $('.filter-select').select2();
+        });
+    </script>#}
+{% endblock %}

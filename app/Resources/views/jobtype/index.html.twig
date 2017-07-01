@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Jobtypes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for jobType in jobTypes %}
+            <tr>
+                <td><a href="{{ path('job_type_show', { 'id': jobType.id }) }}">{{ jobType.id }}</a></td>
+                <td>{{ jobType.name }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('job_type_show', { 'id': jobType.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('job_type_edit', { 'id': jobType.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('job_type_new') }}">Create a new jobType</a>
+        </li>
+    </ul>
+{% endblock %}

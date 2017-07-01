@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('limitless/js/pages/editor_ckeditor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/editable/editable.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/tags/tagsinput.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/styling/uniform.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/pages/form_layouts.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/tags/tagsinput.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/tags/tokenfield.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/ui/prism.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <h1>Job edit</h1>
+
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <input type="submit" value="Edit" />
+    {{ form_end(edit_form) }}
+
+
+   {# <div class="panel panel-flat">
+        <form id="category_create_form" method="post" action="{{ path('job_edit', {'id' : job.id}) }}" class="form-horizontal">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Title</label>
+                    <div class="col-sm-10">
+                        <input type="text" placeholder="Title" name="careerbundle_job[title]" class="form-control" autocomplete="nope" value="{{ job.title }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Short desc</label>
+                    <div class="col-sm-10">
+                        <input type="text" placeholder="Title" name="careerbundle_job[shortDescription]" class="form-control" autocomplete="nope" value="{{ job.shortDescription }}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">requiredKnowledge</label>
+                    <div class="col-sm-10">
+                        <textarea name="careerbundle_job[requiredKnowledge]" id="editor-inline" class="check-editor" rows="4" cols="4">{{ job.requiredKnowledge }}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">niceToHaveKnowledge</label>
+                    <div class="col-sm-10">
+                        <textarea name="careerbundle_job[niceToHaveKnowledge]" id="editor-inline" rows="4" cols="4">{{ job.niceToHaveKnowledge }}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">DESCRIPTION</label>
+                    <div class="col-sm-10">
+                        <textarea name="careerbundle_job[description]" id="editor-inline" rows="4" cols="4">{{ job.description }}</textarea>
+                    </div>
+                </div>
+
+                #}{#<div class="form-group">#}{#
+                    #}{#<label class="control-label col-sm-2">DESCRIPTION</label>#}{#
+                    #}{#<div class="col-md-2">#}{#
+                        #}{#<a href="#" id="input-tags-labels" data-type="text" data-value="{{ entity.tags }}" data-pk="1" data-title="Tags"></a>#}{#
+                    #}{#</div>careerbundle_job[topics]#}{#
+                #}{#</div>#}{#
+
+                <div class="form-group">
+                    <label>Basic example</label>
+                    <div class="tokenfield form-control" style="width: 100%;">
+                        <input type="text" class="form-control tokenfield" value="These,are,tokens" tabindex="-1" style="position: absolute; left: -10000px;">
+                        <input type="text" tabindex="-1" style="position: absolute; left: -10000px;">
+                        <div class="token">
+                            <span class="token-label" style="max-width: 737px;">These</span><a href="#" class="close" tabindex="-1">×</a>
+                        </div>
+                        <div class="token">
+                            <span class="token-label" style="max-width: 737px;">are</span><a href="#" class="close" tabindex="-1">×</a>
+                        </div>
+                        <div class="token">
+                            <span class="token-label" style="max-width: 737px;">tokens</span><a href="#" class="close" tabindex="-1">×</a>
+                        </div>
+                        <input type="text" class="token-input" autocomplete="off" placeholder="" id="1498664533524175-tokenfield" tabindex="0" style="min-width: 60px; width: 530.703px;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </form>
+    </div>#}
+
+
+    <ul>
+        <li>
+            <a href="{{ path('job_index') }}">Back to the list</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+
+    <script>
+        // Label tags input
+        $('#input-tags-labels')
+                .editable({
+                    showbuttons: 'bottom',
+                    width: 200,
+                    clear: false,
+                    display: function(value) {
+                        $(this).html(value);
+                        $(this).each(function() {
+                            var text = $(this).text().split(',');
+
+                            if ( text.length == 1 && text[0] == "")
+                            {
+                                text[0] = '<span class="label label-default">No Tags</span>';
+                            }
+                            else {
+                                for (var i = 0, len = text.length; i < len; i++) {
+                                    text[i] = '<span class="label label-primary">' + text[i] + '</span>';
+                                }
+                            }
+
+                            $(this).html(text.join(' '));
+                        });
+                    },
+                    url: "",
+                    name: 'tags'
+                })
+                .on('shown', function(e, editable) {
+                    editable.input.$input.tagsinput({
+                        maxTags: 5
+                    });
+                });
+
+        $("#careerbundle_job_jobType").select2({
+            minimumResultsForSearch: Infinity
+        });
+    </script>
+{% endblock %}

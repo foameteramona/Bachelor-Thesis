@@ -1,0 +1,127 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+<div class="login-container login-cover">
+
+
+        {% if error %}
+            {% set hasError = 'true' %}
+            {% set errorMessage = error.messageKey %}
+        {% else %}
+            {% set hasError = 'false' %}
+            {% set errorMessage = '' %}
+        {% endif %}
+
+        <div class="page-container">
+            <!-- Page content -->
+
+            <div class="page-content">
+                <!-- Main content -->
+                <div class="content-wrapper">
+                    <!-- Content area -->
+                    <div class="content">
+                        <!-- Simple login form -->
+                        <form action="{{ path("fos_user_security_check") }}" method="post" class="form-validate">
+                            {#<input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />#}
+                            <div class="panel panel-body login-form">
+                                <div class="text-center">
+                                    <div class="icon-object border-slate-300 text-slate-300"><i class="icon-reading"></i></div>
+                                    <h5 class="content-group">Login to your account <small class="display-block">Enter your credentials below</small></h5>
+                                </div>
+
+                                <div class="form-group has-feedback has-feedback-left">
+                                    <input type="text" class="form-control" placeholder="Username" name="_username" required="required">
+                                    <div class="form-control-feedback">
+                                        <i class="icon-user text-muted"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-group has-feedback has-feedback-left">
+                                    <input type="password" class="form-control" placeholder="Password" name="_password" required="required">
+                                    <div class="form-control-feedback">
+                                        <i class="icon-lock2 text-muted"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-group login-options">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" class="styled" checked="checked">
+                                                Remember
+                                            </label>
+                                        </div>
+
+                                        <div class="col-sm-6 text-right">
+                                            <a href="{{ path('fos_user_resetting_request') }}">Forgot password?</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-block">Sign in <i class="icon-circle-right2 position-right"></i></button>
+                                </div>
+
+                                <div class="content-divider text-muted form-group"><span>Don't have an account?</span></div>
+                                <a href="{{ path('fos_user_registration_register') }}" class="btn btn-default btn-block content-group">Register as student</a>
+
+                                <span class="help-block text-center no-margin">By continuing, you're confirming that you've read our <a href="#">Terms &amp; Conditions</a> and <a href="#">Cookie Policy</a></span>
+                            </div>
+                        </form>
+                        <!-- /simple login form -->
+                    </div>
+                    <!-- /content area -->
+                </div>
+                <!-- /main content -->
+            </div>
+            <!-- /page content -->
+            </div>
+        <!-- /page container -->
+</div>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/styling/uniform.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/pages/login_validation.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/notifications/noty.min.js') }}"></script>
+
+    <script type="text/javascript">
+
+        var notes = [];
+
+        // Text options
+        notes['alert'] = 'Best check yo self, you\'re not looking too good.';
+        notes['error'] = 'Change a few things up and try submitting again.';
+        notes['success'] = 'You successfully read this important alert message.';
+        notes['information'] = 'This alert needs your attention, but it\'s not super important.';
+        notes['warning'] = 'Warning! Best check yo self, you\'re not looking too good.';
+        notes['confirm'] = 'Do you want to continue?';
+
+        $(function() {
+            if ( '{{ hasError }}' == 'true')
+            {
+                test();
+            }
+        });
+
+
+        // Initialize
+        function test() {
+            var self = $(this);
+            noty({
+                width: 50,
+                text: '{{ errorMessage }}',
+                type: 'error',
+                dismissQueue: true,
+                timeout: 4000,
+                layout: 'topRight',
+                buttons: false
+            });
+            return false;
+        }
+    </script>
+
+{% endblock fos_user_content %}
+
+

@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {#{% if error %}#}
+        {#{% set hasError = 'true' %}#}
+        {#{% set errorMessage = error.messageKey %}#}
+    {#{% else %}#}
+        {#{% set hasError = 'false' %}#}
+        {#{% set errorMessage = '' %}#}
+    {#{% endif %}#}
+
+    <h1>Job creation</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Create" />
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('job_index') }}">Back to the list</a>
+        </li>
+    </ul>
+
+    <script type="text/javascript">
+        CKEDITOR.disableAutoInline = true;
+
+        // Attach editor to the area
+        var editor3 = CKEDITOR.inline('editor-inline');
+    </script>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('limitless/js/pages/editor_ckeditor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/editable/editable.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/tags/tagsinput.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+
+    {#<script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/validation/validate.min.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/styling/uniform.min.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('limitless/js/plugins/notifications/noty.min.js') }}"></script>#}
+
+    {#<script type="text/javascript">#}
+
+        {#var notes = [];#}
+
+        {#// Text options#}
+        {#notes['alert'] = 'Best check yo self, you\'re not looking too good.';#}
+        {#notes['error'] = 'Change a few things up and try submitting again.';#}
+        {#notes['success'] = 'You successfully read this important alert message.';#}
+        {#notes['information'] = 'This alert needs your attention, but it\'s not super important.';#}
+        {#notes['warning'] = 'Warning! Best check yo self, you\'re not looking too good.';#}
+        {#notes['confirm'] = 'Do you want to continue?';#}
+
+        {#$(function() {#}
+            {#if ( '{{ hasError }}' == 'true')#}
+            {#{#}
+                {#test();#}
+            {#}#}
+        {#});#}
+
+
+        {#// Initialize#}
+        {#function test() {#}
+            {#var self = $(this);#}
+            {#noty({#}
+                {#width: 50,#}
+                {#text: '{{ errorMessage }}',#}
+                {#type: 'error',#}
+                {#dismissQueue: true,#}
+                {#timeout: 4000,#}
+                {#layout: 'topRight',#}
+                {#buttons: false#}
+            {#});#}
+            {#return false;#}
+        {#}#}
+    {#</script>#}
+{% endblock %}

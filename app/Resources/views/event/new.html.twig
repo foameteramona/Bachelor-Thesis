@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event create{% endblock %}
+
+{% block body %}
+    <h1>Event creation</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Create" />
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('event_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('limitless/js/pages/editor_ckeditor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/editable/editable.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/tags/tagsinput.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    <script type="text/javascript">
+        CKEDITOR.disableAutoInline = true;
+
+        // Attach editor to the area
+        var editor3 = CKEDITOR.inline('editor-inline');
+    </script>
+{% endblock %}

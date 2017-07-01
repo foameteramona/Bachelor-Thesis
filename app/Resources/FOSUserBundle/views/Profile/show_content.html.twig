@@ -1,0 +1,137 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+<div class="ui grid">
+    <div class="three wide column">
+        <div class="fos_user_user_show">
+            <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
+            <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
+            <a class="ui link button" href="{{ path('fos_user_change_password') }}"> Change Password </a>
+        </div>
+    </div>
+    <div class="four wide column">
+        <div class="row">
+            <a class="ui link button addKbCategory">Add KB Category</a>
+            <a class="ui link button addKbItem" href="#">Add KB Item</a>
+        </div>
+        <div class="row" style="margin-top: 20px">
+            {{ render(controller("CoreBundle:KnowledgeBase:createCategoryList")) }}
+        </div>
+    </div>
+</div>
+
+<div id="kbCatModal" class="ui small modal">
+    <i class="close icon"></i>
+    <div class="header">
+        Add Knowledge Base Category
+    </div>
+    <div class="content">
+        <div class="description">
+            <form id="createKbCatForm" class="ui form">
+                <div class="field">
+                    <label>Name</label>
+                    <input name="categoryName" placeholder="Name..." type="text">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui black deny button">
+            Cancel
+        </div>
+        <input type="submit" value="Create" form="createKbCatForm" class="ui positive button">
+    </div>
+</div>
+
+<div id="kbItemModal" class="ui small modal">
+    <i class="close icon"></i>
+    <div class="header">
+        Add Knowledge Base Category
+    </div>
+    <div class="content">
+        <div class="description">
+            <form id="createKbItemForm" class="ui form">
+                <div class="field">
+                    {{ render(controller("CoreBundle:KnowledgeBase:createDropdownForCategories")) }}
+                </div>
+                <div class="field">
+                    <label>Title</label>
+                    <input name="itemTitle" placeholder="Title..." type="text">
+                </div>
+                <div class="field">
+                    <label>Description</label>
+                    <input name="itemDescription" placeholder="Description..." type="text">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui black deny button">
+            Cancel
+        </div>
+        <input type="submit" value="Create" form="createKbItemForm" class="ui positive button">
+    </div>
+</div>
+
+<script type="application/javascript">
+    $.fn.api.settings.api = {
+        'create kbCategory' : "{{ path('knowledgebase_create_category_check') }}",
+        'create kbItem' : "{{ path('knowledgebase_create_item_check') }}"
+    };
+</script>
+
+<script type="text/javascript">
+
+    $(".addKbCategory").click(function()
+    {
+        $("#kbCatModal")
+            .modal({
+                closable  : true
+            })
+            .modal('show')
+    });
+
+    $(".addKbItem").click(function()
+    {
+        $("#kbItemModal")
+                .modal({
+                    closable  : true
+                })
+                .modal('show')
+    });
+
+    $("#createKbItemForm").api({
+        action: 'create kbItem',
+        method: 'post',
+        serializeForm: true,
+        dataType: 'text',
+        data: $(this).serialize(),
+        onSuccess: function(data){
+            $(".ui.modal").modal('hide');
+            alert(data);
+        },
+        onError: function(){
+            alert("Error");
+        }
+    });
+
+    $("#createKbCatForm").api({
+        action: 'create kbCategory',
+        method: 'post',
+        serializeForm: true,
+        dataType: 'text',
+        data: $(this).serialize(),
+        onSuccess: function(){
+            $(".ui.modal").modal('hide');
+            window.location.reload();
+        },
+        onError: function(){
+            alert("Error");
+        }
+    });
+</script>
+
+
+
+
+

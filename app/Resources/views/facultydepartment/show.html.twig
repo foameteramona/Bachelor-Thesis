@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Facultydepartment</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ facultyDepartment.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ facultyDepartment.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('faculty-department_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('faculty-department_edit', { 'id': facultyDepartment.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

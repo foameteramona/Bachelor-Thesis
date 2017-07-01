@@ -1,0 +1,20 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<form class="ui large form fos_user_change_password" name="fos_user_change_password_form" method="post" action="{{ path('fos_user_resetting_reset') }}" >
+
+    <div class="field">
+        <label>Current Password</label>
+        <input type="password" id="fos_user_change_password_form_current_password" name="fos_user_change_password_form[current_password]" placeholder="Password" required="required" />
+    </div>
+    <div class="field">
+        <label>Current Password</label>
+        <input type="password" id="fos_user_change_password_form_plainPassword_first" name="fos_user_change_password_form[plainPassword][first]" placeholder="Password" required="required" />
+    </div>
+    <div class="field">
+        <label>Current Password</label>
+        <input type="password" id="fos_user_change_password_form_plainPassword_second" name="fos_user_change_password_form[plainPassword][second]" placeholder="Password" required="required" />
+    </div>
+    <input id="fos_user_change_password_form__token" name="fos_user_change_password_form[_token]" value="mAUY9D2JA7WI7d5fDAUZmKbOEQlsbbZJAtQLseorfz4" type="hidden">
+
+    <div class="ui blue submit button">Reset</div>
+</form>

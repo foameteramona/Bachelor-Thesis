@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('limitless/js/pages/editor_ckeditor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/editable/editable.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/tags/tagsinput.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/styling/uniform.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/pages/form_layouts.js') }}"></script>
+{% endblock %}
+
+{% block title %}Professors{% endblock %}
+
+{% block body %}
+    <div class="page-header page-header-default">
+        <div class="page-header-content">
+            <div class="page-title">
+                <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Professor</span> - Edit</h4>
+            </div>
+        </div>
+
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('homepage') }}"><i class="icon-home2 position-left"></i> Home</a></li>
+                <li class="active"><a href="{{ path('list_professor') }}">Professors</a></li>
+            </ul>
+        </div>
+    </div>
+
+    {{ form_start(edit_form) }}
+    {{ form_widget(edit_form) }}
+    <input type="submit" value="Edit" />
+    {{ form_end(edit_form) }}
+
+    <script>
+        $("#careerbundle_job_jobType").select2({
+            minimumResultsForSearch: Infinity
+        });
+    </script>
+{% endblock %}

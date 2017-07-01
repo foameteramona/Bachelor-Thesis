@@ -1,0 +1,174 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/tables/datatables/extensions/buttons.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/tables/datatables/extensions/select.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/notifications/sweet_alert.min.js') }}"></script>
+{% endblock %}
+
+{% block title %}Professors{% endblock %}
+
+{% block body %}
+    <div class="page-header page-header-default">
+        <div class="page-header-content">
+            <div class="page-title">
+                <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Professors</span> - List</h4>
+            </div>
+        </div>
+
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('homepage') }}"><i class="icon-home2 position-left"></i> Home</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- Individual column searching (text inputs) -->
+        <div class="panel panel-flat">
+            <div class="panel-heading">
+                <h5 class="panel-title">Professors</h5>
+                <div class="heading-elements">
+                    <ul class="icons-list">
+                        <li><a href="{{ path('new_professor') }}"><i class="icon-add-to-list"></i></a></li>
+                        <li><a data-action="collapse"></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <table class="table datatable-column-search-inputs table-hover">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th>Website</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for professor in professors %}
+                    <tr {#data-href="{{ path('job_show', { 'id': job.id }) }}"#}>
+                        <td>{{ professor.id }}</td>
+                        <td>{{ professor.name }}</td>
+                        <td>{{ professor.securityUser.email }}</td>
+                        <td>{{ professor.department.name }}</td>
+                        <td><a href="{{ professor.personalWebsite }}" target="_blank">Website</a></td>
+                        <td class="text-center">
+                            <ul class="icons-list">
+                                <li>
+                                    <a href="{{ path('professor_edit', { 'id': professor.id }) }}"><i class="icon-pencil7"></i></a>
+                                </li>
+                                {#<li>
+                                    <a href="{{ path('job_delete', { 'id': job.id }) }}"><i class=" icon-trash"></i></a>
+                                </li>#}
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td>Id</td>
+                    <td>Name</td>
+                    <td>Email</td>
+                    <td>Department</td>
+                    <td>Website</td>
+                    <td></td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            $("tbody tr").click(function(){
+                window.document.location = $(this).data("href");
+            });
+
+            // Table setup
+            // ------------------------------
+
+            // Setting datatable defaults
+            $.extend($.fn.dataTable.defaults, {
+                autoWidth: false,
+                columnDefs: [{
+                    orderable: false,
+                    width: '70px',
+                    targets: [7]
+                }],
+                dom: '<"datatable-header"fBl><"datatable-scroll-wrap"t><"datatable-footer"ip>',
+                language: {
+                    search: '<span>Filter:</span> _INPUT_',
+                    lengthMenu: '<span>Show:</span> _MENU_',
+                    paginate: {'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;'}
+                },
+                drawCallback: function () {
+                    $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
+                },
+                preDrawCallback: function () {
+                    $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
+                }
+            });
+
+            // Individual column searching with text inputs
+            $('.datatable-column-search-inputs tfoot td').not(':last-child').each(function () {
+                var title = $('.datatable-column-search-inputs thead th').eq($(this).index()).text();
+                $(this).html('<input type="text" class="form-control input-sm" placeholder="Search ' + title + '" />');
+            });
+
+            $('.datatable-column-search-inputs').DataTable({
+                initComplete: function() {
+                    this.api().columns().every(function () {
+                        var that = this;
+                        $('input', this.footer()).on('keyup change', function () {
+                            that.search(this.value).draw();
+                        });
+                    });
+                },
+                buttons: [
+                    {
+                        extend: 'colvis',
+                        className: 'btn btn-default'
+                    }
+                ]
+                /*rowReorder: {
+                 selector: 'tr'
+                 },
+                 columnDefs: [
+                 { targets: 0, visible: false }
+                 ],*/
+            });
+
+
+            // This sets the default sort column and order
+            var oTable = $(".datatable-column-search-inputs").dataTable();
+            oTable.fnSort([0,'desc']);
+
+            // External table additions
+            // ------------------------------
+
+            // Launch Uniform styling for checkboxes
+            $('.ColVis_Button').addClass('btn btn-primary btn-icon').on('click mouseover', function() {
+                $('.ColVis_collection input').uniform();
+            });
+
+            // Add placeholder to the datatable filter option
+            $('.dataTables_filter input[type=search]').attr('placeholder', 'Type to filter...');
+
+
+            // Enable Select2 select for the length option
+            $('.dataTables_length select').select2({
+                minimumResultsForSearch: Infinity,
+                width: 'auto'
+            });
+
+            // Enable Select2 select for individual column searching
+            $('.filter-select').select2();
+        });
+    </script>
+{% endblock %}

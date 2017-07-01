@@ -1,0 +1,430 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/tables/datatables/extensions/buttons.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/tables/datatables/extensions/select.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/notifications/sweet_alert.min.js') }}"></script>
+
+    <!-- Theme JS files -->
+    <script type="text/javascript" src="{{ asset('limitless/js/pages/job_list.js') }}"></script>
+{% endblock %}
+
+{% block title %}Job{% endblock %}
+
+{% block body %}
+    <!-- Page header -->
+    <div class="page-header page-header-default">
+        <div class="page-header-content">
+            <div class="page-title">
+                <h4><a href="{{ path('job_index') }}"><i class="icon-arrow-left52 position-left"></i></a> <span class="text-semibold">Job</span> - Detail</h4>
+            </div>
+        </div>
+
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('homepage') }}"><i class="icon-home2 position-left"></i> Home</a></li>
+                <li ><a href="{{ path('job_index') }}">Jobs</a></li>
+                <li class="active">Job detail</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /page header -->
+
+    <div class="content">
+
+        <!-- Detached sidebar -->
+        <div class="sidebar-detached">
+            <div class="sidebar sidebar-default sidebar-separate">
+                <div class="sidebar-content">
+
+                    <!-- Sidebar search -->
+                    <div class="panel panel-white">
+                        <div class="panel-heading">
+                            <div class="panel-title text-semibold">
+                                <i class="icon-search4 text-size-base position-left"></i>
+                                Filter
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <form action="#">
+                                <div class="form-group">
+                                    <div class="has-feedback has-feedback-left">
+                                        <input type="search" class="form-control" placeholder="Job title or keywords">
+                                        <div class="form-control-feedback">
+                                            <i class="icon-reading text-size-large text-muted"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    {% for jobType in jobTypes %}
+                                        <div class="checkbox">
+                                            <label class="display-block">
+                                                <input type="checkbox" class="styled">
+                                                {{ jobType.name }}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <button type="submit" class="btn bg-blue btn-block">
+                                    <i class="icon-search4 text-size-base position-left"></i>
+                                    Find jobs
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /sidebar search -->
+
+                    <!-- Company selection -->
+                    <div class="panel panel-white">
+                        <div class="panel-heading">
+                            <div class="panel-title text-semibold">
+                                <i class="icon-briefcase3 position-left"></i>
+                                Company
+                            </div>
+
+                            <div class="heading-elements not-collapsible">
+                                <a href="#" class="heading-text">+ Add</a>
+                            </div>
+                        </div>
+
+                        <form action="#">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    {% for company in companies %}
+                                        <div class="checkbox no-margin-top">
+                                            <label>
+                                                <input type="checkbox" class="styled">
+                                                {{ company.name }}
+                                                {#<span class="text-muted text-size-small">&nbsp;(43)</span>#}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="panel-footer no-padding">
+                                <a href="#" class="btn btn-default btn-block no-border">All companies</a>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /company selection -->
+
+
+                    <!-- Specific skills -->
+                    <div class="panel panel-white">
+                        <div class="panel-heading">
+                            <div class="panel-title text-semibold">
+                                <i class="icon-stars position-left"></i>
+                                Specific topics
+                            </div>
+
+                            <div class="heading-elements not-collapsible">
+                                <a href="#" class="heading-text">+ Add</a>
+                            </div>
+                        </div>
+
+                        <form action="#">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    {% for topic in topics %}
+                                        <div class="checkbox no-margin-top">
+                                            <label>
+                                                <input type="checkbox" class="styled">
+                                                {{ topic.name }}
+                                                {#<span class="text-muted text-size-small">&nbsp;(53)</span>#}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="panel-footer no-padding">
+                                <a href="#" class="btn btn-default btn-block no-border">All skills</a>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /specific skills -->
+
+
+                    <!-- Date posted -->
+                    <div class="panel panel-white">
+                        <div class="panel-heading">
+                            <div class="panel-title text-semibold">
+                                <i class="icon-calendar3 position-left"></i>
+                                Date posted
+                            </div>
+                        </div>
+
+                        <form action="#">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <div class="radio no-margin-top">
+                                        <label>
+                                            <input type="radio" name="when_posted" class="styled">
+                                            Today
+                                            <span class="text-muted text-size-small">&nbsp;(632)</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="when_posted" class="styled">
+                                            Yesterday
+                                            <span class="text-muted text-size-small">&nbsp;(431)</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="when_posted" class="styled">
+                                            Last week
+                                            <span class="text-muted text-size-small">&nbsp;(31)</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="when_posted" class="styled">
+                                            Last month
+                                            <span class="text-muted text-size-small">&nbsp;(124)</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="radio no-margin-bottom">
+                                        <label>
+                                            <input type="radio" name="when_posted" class="styled">
+                                            Any time
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /date posted -->
+
+                </div>
+            </div>
+        </div>
+        <!-- /detached sidebar -->
+
+
+        <!-- Detached content -->
+        <div class="container-detached">
+            <div class="content-detached">
+
+                <!-- Details -->
+                <div class="panel panel-flat">
+                    <div class="panel-body">
+                        <div class="media stack-media-on-mobile text-left content-group-lg">
+                            <a href="{{ job.createdBy.website }}" class="media-left">
+                                <img src="http://www.netromsoftware.ro/images/logo.png" class="img-rounded img-lg" alt="">
+                            </a>
+
+                            <div class="media-body">
+                                <h5 class="media-heading text-semibold">{{ job.title }}</h5>
+                                <ul class="list-inline list-inline-separate text-muted no-margin">
+                                    <li>{{ job.createdBy.location }}</li>
+                                </ul>
+                            </div>
+
+                            <div class="media-right media-middle text-nowrap">
+                                {{ form_start(application_form) }}
+                                <input type="submit" value="Apply for this job" class="btn bg-blue">
+                                {{ form_end(application_form) }}
+                                {#<a href="{{ path('job_apply', {'id' : job.id}) }}" class="btn bg-blue"><i class="icon-envelop2 position-left"></i> Apply for this job</a>#}
+                                <a href="{{ path('job_edit', { 'id': job.id }) }}" class="btn bg-green"><i class="icon-pencil7 position-left"></i></a>
+                                {{ form_start(delete_form) }}
+                                <input type="submit" value="Delete" class="btn bg-danger">
+                                {{ form_end(delete_form) }}
+
+                            </div>
+                        </div>
+
+                        <div class="content-group-lg">
+                            <h6 class="text-semibold">Job Description</h6>
+
+                            {{ job.shortDescription | raw }}
+                        </div>
+
+                        <div class="content-group-lg">
+                            <h6 class="text-semibold">Requirements:</h6>
+
+                            {{ job.requiredKnowledge |raw }}
+                        </div>
+
+                        <div class="content-group-lg">
+                            {{ job.niceToHaveKnowledge | raw }}
+                        </div>
+
+                        <div class="content-group-lg">
+                            {{ job.description | raw }}
+                        </div>
+
+                        <ul class="list-inline no-margin">
+                            <li class="mt-5">
+                                <a href="{{ path('job_apply', {'id': job.id}) }}" class="btn bg-blue">
+                                    <i class="icon-envelop2 position-left"></i>
+                                    Apply for this job
+                                </a>
+                            </li>
+                            <li class="mt-5">
+                                <a href="#" class="btn btn-default">
+                                    <i class="icon-share4 position-left"></i>
+                                    Share
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /details -->
+
+
+                <!-- Company profile -->
+                <h5 class="pt-10 content-group">Company profile</h5>
+                <div class="panel panel-flat">
+                    <div class="panel-body">
+                        <div class="media stack-media-on-mobile text-left content-group">
+                            <a href="{{ job.createdBy.website }}" class="media-left media-middle">{{ job.createdBy.name }}
+                                {#<img src="assets/images/demo/brands/microsoft.png" class="img-rounded img-lg" alt="">#}
+                            </a>
+
+                            <div class="media-body">
+                                <h5 class="media-heading text-semibold">{{ job.createdBy.name }}</h5>
+                            </div>
+
+                            <div class="media-right media-middle text-nowrap">
+                                <ul class="list-inline no-margin">
+                                    <li><a href="#" class="btn bg-blue"><i class="icon-menu7 position-left"></i> All positions</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        {{ job.createdBy.description }}
+                        </div>
+                </div>
+                <!-- /company profile -->
+
+
+                <!-- Similar jobs -->
+                <h5 class="pt-10 content-group">Similar jobs</h5>
+                <div class="row">
+                    <div class="col-sm-6">
+                        {% for reccJob in recommendedJobs %}
+                        <div class="media panel panel-body stack-media-on-mobile">
+                            <div class="media-left">
+                                <a href="#">
+                                    {{ reccJob.createdBy.name }}
+                                    {#<img src="assets/images/demo/brands/dell.png" class="img-rounded img-lg" alt="">#}
+                                </a>
+                            </div>
+
+                            <div class="media-body">
+                                <h6 class="media-heading text-semibold">
+                                    <a href="#">{{ reccJob.title }}</a>
+                                </h6>
+
+                                <ul class="list-inline list-inline-separate text-muted mb-10">
+                                    <li><a href="#" class="text-muted">{{ reccJob.createdBy.name }}</a></li>
+                                    <li>{{ reccJob.createdBy.location }}</li>
+                                </ul>
+                                {{ reccJob.shortDescription }}
+                            </div>
+
+                            <div class="media-right text-nowrap">
+                                <span class="label bg-blue">New</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="media panel panel-body stack-media-on-mobile">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img src="assets/images/demo/brands/ibm.png" class="img-rounded img-lg" alt="">
+                                </a>
+                            </div>
+
+                            <div class="media-body">
+                                <h6 class="media-heading text-semibold">
+                                    <a href="#">UX Lead Designer</a>
+                                </h6>
+
+                                <ul class="list-inline list-inline-separate text-muted mb-10">
+                                    <li><a href="#" class="text-muted">IBM</a></li>
+                                    <li>Lelystad, Netherlands</li>
+                                </ul>
+
+                                Contented get distrusts certainty nay are frankness concealed ham. On unaffected resolution on considered of. No thought me husband or colonel forming effects. End sitting shewing who saw besides son musical adapted. Contrasted interested eat alteration pianoforte sympathize was.
+                            </div>
+
+                            <div class="media-right text-nowrap">
+                                <span class="text-muted">3 days ago</span>
+                            </div>
+                        </div>
+
+                        <div class="media panel panel-body stack-media-on-mobile">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img src="assets/images/demo/brands/cnn.png" class="img-rounded img-lg" alt="">
+                                </a>
+                            </div>
+
+                            <div class="media-body">
+                                <h6 class="media-heading text-semibold">
+                                    <a href="#">Designer, CRM</a>
+                                </h6>
+
+                                <ul class="list-inline list-inline-separate text-muted mb-10">
+                                    <li><a href="#" class="text-muted">CNN</a></li>
+                                    <li>Rotterdam, Netherlands</li>
+                                </ul>
+
+                                At as in understood an remarkably solicitude. Mean them very seen she she. Use totally written the observe pressed justice. Instantly cordially far intention recommend estimable yet her his. Ladies stairs enough esteem add fat all enable. Needed its design number winter see. Oh be me sure wise.
+                            </div>
+
+                            <div class="media-right text-nowrap">
+                                <span class="text-muted">4 days ago</span>
+                            </div>
+                        </div>
+
+                        <div class="media panel panel-body stack-media-on-mobile">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img src="assets/images/demo/brands/ing.png" class="img-rounded img-lg" alt="">
+                                </a>
+                            </div>
+
+                            <div class="media-body">
+                                <h6 class="media-heading text-semibold">
+                                    <a href="#">FPGA Designer</a>
+                                </h6>
+
+                                <ul class="list-inline list-inline-separate text-muted mb-10">
+                                    <li><a href="#" class="text-muted">ING Bank</a></li>
+                                    <li>Eindhoven, Netherlands</li>
+                                </ul>
+
+                                By so delight of showing neither believe he present. Deal sigh up in shew away when. Pursuit express no or prepare replied. Wholly formed old latter future but way she. Day her likewise smallest expenses judgment building man carriage gay. Considered introduced themselves mr to discretion at.
+                            </div>
+
+                            <div class="media-right text-nowrap">
+                                <span class="text-muted">7 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /similar jobs -->
+
+            </div>
+        </div>
+        <!-- /detached content -->
+
+    </div>
+    <!-- /content area -->
+{% endblock %}

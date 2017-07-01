@@ -1,0 +1,59 @@
+{% if app.user != null %}
+    {% set securityLink = path("fos_user_profile_show") %}
+    {% set securityName = app.user.username %}
+{% else %}
+    {% set securityLink = path("fos_user_security_login") %}
+    {% set securityName = "Login" %}
+{% endif %}
+
+<!-- Main navbar -->
+<div class="navbar-top">
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/" style="padding: 0;"><img src="{{ asset('images/licenta_logo.png') }}" alt="" style="padding-left: 55px; height: 46px;"></a>
+
+        <ul class="nav navbar-nav pull-right visible-xs-block">
+            <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+            <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+        </ul>
+    </div>
+
+    <div class="navbar-collapse collapse" id="navbar-mobile">
+        <ul class="nav navbar-nav" style="margin-left: 0;">
+            {% if app.user %}
+                <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
+            {% endif %}
+            {#<li><a href="{{ path('faculty_index') }}" type="button" class="btn"><b><i class="icon-reading"></i></b>  Ticket Wizard</a></li>#}
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+
+            {% if app.user %}
+                <li class="dropdown dropdown-user">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+
+                        <img src="{{ asset('images/no-avatar.jpg') }}" alt="">
+                        <span>{{ securityName }}</span>
+                        <i class="caret"></i>
+
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="{{ path('student_edit', {'id': app.user.id}) }}"><i class="icon-user-plus"></i> My profile</a></li>
+                        <li><a href="{{ path('fos_user_security_logout') }}"><i class="icon-switch2"></i> Logout</a></li>
+                    </ul>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{ securityLink }}">
+                        <i class="icon-user"></i>
+                        <span class="visible-xs-inline-block position-right">Components</span>
+                        <span class="label label-inline bg-success-400 position-right">Login</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+</div>
+<!-- /main navbar -->

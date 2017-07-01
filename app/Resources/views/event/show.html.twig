@@ -1,0 +1,487 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/tables/datatables/extensions/buttons.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/tables/datatables/extensions/select.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/notifications/sweet_alert.min.js') }}"></script>
+
+    <!-- Theme JS files -->
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/ui/moment/moment.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless/js/plugins/ui/fullcalendar/fullcalendar.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('limitless//js/pages/learning_detailed.js') }}"></script>
+{% endblock %}
+
+{% block title %}Event{% endblock %}
+
+{% block body %}
+    <!-- Page header -->
+    <div class="page-header page-header-default">
+        <div class="page-header-content">
+            <div class="page-title">
+                <h4><a href="{{ path('event_index') }}"><i class="icon-arrow-left52 position-left"></i></a> <span class="text-semibold">Event</span> - Detail</h4>
+            </div>
+        </div>
+
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('homepage') }}"><i class="icon-home2 position-left"></i> Home</a></li>
+                <li ><a href="{{ path('event_index') }}">Events</a></li>
+                <li class="active">Event detail</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /page header -->
+
+    <!-- Content area -->
+    <div class="content">
+
+        <!-- Detached content -->
+        <div class="container-detached">
+            <div class="content-detached">
+
+                <!-- Course overview -->
+                <div class="panel panel-white">
+                    <div class="panel-heading">
+                        <h6 class="panel-title text-semibold">{{ event.name }}</h6>
+
+                        {#<div class="heading-elements">
+                            <ul class="list-inline list-inline-separate heading-text">
+                                <li>Rating: <span class="text-semibold">4.85</span></li>
+                                <li>
+                                    <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                    <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                    <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                    <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                    <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                    <span class="text-muted position-right">(439)</span>
+                                </li>
+                            </ul>
+                        </div>#}
+                    </div>
+
+                    <ul class="nav nav-lg nav-tabs nav-tabs-bottom nav-tabs-toolbar no-margin">
+                        <li class="active"><a href="#course-overview" data-toggle="tab"><i class="icon-menu7 position-left"></i> Overview</a></li>
+                        <li><a href="#course-schedule" data-toggle="tab"><i class="icon-calendar3 position-left"></i> Schedule</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="course-overview">
+                            <div class="panel-body">
+                                <div class="content-group-lg">
+                                    {{ event.description | raw }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="course-schedule">
+                            <div class="panel-body">
+                                <div class="schedule"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /course overview -->
+
+
+                <!-- About author -->
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <h6 class="panel-title">About the host</h6>
+
+                        <div class="heading-elements">
+                            <ul class="icons-list icons-list-extended heading-text">
+                                <li><a href="#" data-popup="tooltip" data-container="body" title="Google Drive"><i class="icon-google-drive"></i></a></li>
+                                <li><a href="#" data-popup="tooltip" data-container="body" title="Twitter"><i class="icon-twitter"></i></a></li>
+                                <li><a href="#" data-popup="tooltip" data-container="body" title="Github"><i class="icon-github"></i></a></li>
+                                <li><a href="#" data-popup="tooltip" data-container="body" title="Linked In"><i class="icon-linkedin"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="media panel-body no-margin">
+                        {#<div class="media-left">
+                            <a href="#">
+                                <img src="assets/images/demo/users/face1.jpg" style="width: 68px; height: 68px;" class="img-circle" alt="">
+                            </a>
+                        </div>#}
+
+                        <div class="media-body">
+                            <h6 class="media-heading text-semibold">{{ event.hostedBy.name }}</h6>
+                            <strong>Faculty:</strong> {{ event.hostedBy.department.faculty.name }}<br>
+                            <strong>Department:</strong> {{ event.hostedBy.department.name }}
+
+                            <ul class="list-inline list-inline-separate no-margin">
+                                <li><a href="#">Host profile</a></li>
+                                <li><a href="#">All event hosted by {{ event.hostedBy.name }}</a></li>
+                                <li><a href="{{ event.hostedBy.personalWebsite }}">Website</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /about author -->
+
+            </div>
+        </div>
+        <!-- /detached content -->
+
+
+        <!-- Detached sidebar -->
+        <div class="sidebar-detached">
+            <div class="sidebar sidebar-default sidebar-separate">
+                <div class="sidebar-content">
+
+                    <!-- Course details -->
+                    <div class="sidebar-category">
+                        <div class="category-title">
+                            <span>Event details</span>
+                            <ul class="icons-list">
+                                <li><a href="#" data-action="collapse"></a></li>
+                            </ul>
+                        </div>
+
+                        <div class="category-content">
+                            <a href="{{ path('event_attend', {'id': event.id}) }}" class="btn bg-teal-400 btn-block content-group">Attend</a>
+                            <a href="{{ path('event_edit', {'id': event.id}) }}" class="btn bg-green-400 btn-block content-group">Edit</a>
+                            {{ form_start(delete_form) }}
+                            <input type="submit" value="Delete" class="btn bg-danger-400 btn-block content-group">
+                            {{ form_end(delete_form) }}
+
+                            {#<li>#}
+                                {#<a href="{{ path('event_edit', { 'id': event.id }) }}">Edit</a>#}
+                            {#</li>#}
+                            {#<li>#}
+                                {#{{ form_start(delete_form) }}#}
+                                {#<input type="submit" value="Delete">#}
+                                {#{{ form_end(delete_form) }}#}
+                            {#</li>#}
+                            {#<li>#}
+                                {#{{ form_start(attendance_form) }}#}
+                                {#<input type="submit" value="Attend">#}
+                                {#{{ form_end(attendance_form) }}#}
+                            {#</li>#}
+
+                            {#<div class="form-group">#}
+                                {#<label class="control-label no-margin text-semibold">Duration:</label>#}
+                                {#<div class="pull-right">10 hours</div>#}
+                            {#</div>#}
+
+                            {#<div class="form-group">#}
+                                {#<label class="control-label no-margin text-semibold">Status:</label>#}
+                                {#<div class="pull-right"><span class="label bg-blue">Registration</span></div>#}
+                            {#</div>#}
+
+                            <div class="form-group">
+                                <label class="control-label no-margin text-semibold">Start date:</label>
+                                <div class="pull-right">
+                                    {% if event.start %}
+                                        {{ event.start|date('Y-m-d H:i:s') }}
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label no-margin text-semibold">End date:</label>
+                                <div class="pull-right">{% if event.start %}{{ event.finish|date('Y-m-d H:i:s') }}{% endif %}</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label no-margin text-semibold">No. of participants:</label>
+                                <div class="pull-right">{{ event.noOfParticipants }}</div>
+                            </div>
+
+                            {#<div class="form-group">
+                                <label class="control-label no-margin text-semibold">Rating:</label>
+                                <div class="pull-right">
+                                    <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                    <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                    <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                    <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                    <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                </div>
+                            </div>#}
+                        </div>
+                    </div>
+                    <!-- /course details -->
+
+                    <!-- Categories -->
+                    <div class="sidebar-category">
+                        <div class="category-title">
+                            <span>Topics</span>
+                            <ul class="icons-list">
+                                <li><a href="#" data-action="collapse"></a></li>
+                            </ul>
+                        </div>
+
+                        <div class="category-content no-padding">
+                            <ul class="navigation navigation-alt navigation-accordion">
+                                {% for topic in topics %}
+                                    <li><a href="#"><span class="badge badge-default">37</span> {{ topic.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /categories -->
+
+                    <!-- Attendees -->
+                    <div class="sidebar-category">
+                        <div class="category-title">
+                            <span>Latest attendees</span>
+                            <ul class="icons-list">
+                                <li><a href="#" data-action="collapse"></a></li>
+                            </ul>
+                        </div>
+
+                        <div class="category-content no-padding">
+                            <ul class="media-list media-list-linked">
+                                <li class="media">
+                                    <a href="#" class="media-link">
+                                        <div class="media-left">
+                                            <img src="assets/images/demo/users/face25.jpg" class="img-sm img-circle" alt="">
+                                        </div>
+
+                                        <div class="media-body">
+                                            <span class="media-heading text-semibold">Will Baker</span>
+                                            <span class="text-size-mini text-muted display-block">Santa Ana, CA.</span>
+                                        </div>
+
+                                        <div class="media-right media-middle">
+                                            <span class="status-mark bg-success"></span>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li class="media">
+                                    <a href="#" class="media-link">
+                                        <div class="media-left">
+                                            <img src="assets/images/demo/users/face24.jpg" class="img-sm img-circle" alt="">
+                                        </div>
+
+                                        <div class="media-body">
+                                            <span class="media-heading text-semibold">Joseph Mills</span>
+                                            <span class="text-size-mini text-muted display-block">Dowagiac, MI.</span>
+                                        </div>
+
+                                        <div class="media-right media-middle">
+                                            <span class="status-mark bg-danger"></span>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li class="media">
+                                    <a href="#" class="media-link">
+                                        <div class="media-left">
+                                            <img src="assets/images/demo/users/face23.jpg" class="img-sm img-circle" alt="">
+                                        </div>
+
+                                        <div class="media-body">
+                                            <span class="media-heading text-semibold">Buzz Brenson</span>
+                                            <span class="text-size-mini text-muted display-block">Kasaan, AK.</span>
+                                        </div>
+
+                                        <div class="media-right media-middle">
+                                            <span class="status-mark bg-success"></span>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li class="media">
+                                    <a href="#" class="media-link">
+                                        <div class="media-left">
+                                            <img src="assets/images/demo/users/face20.jpg" class="img-sm img-circle" alt="">
+                                        </div>
+
+                                        <div class="media-body">
+                                            <span class="media-heading text-semibold">Zachary Willson</span>
+                                            <span class="text-size-mini text-muted display-block">Neenah, WI.</span>
+                                        </div>
+
+                                        <div class="media-right media-middle">
+                                            <span class="status-mark bg-warning"></span>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li class="media">
+                                    <a href="#" class="media-link">
+                                        <div class="media-left">
+                                            <img src="assets/images/demo/users/face15.jpg" class="img-sm img-circle" alt="">
+                                        </div>
+
+                                        <div class="media-body">
+                                            <span class="media-heading text-semibold">Bastian Miller</span>
+                                            <span class="text-size-mini text-muted display-block">Grapevine, TX.</span>
+                                        </div>
+
+                                        <div class="media-right media-middle">
+                                            <span class="status-mark bg-grey-400"></span>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /attendees -->
+
+                    <!-- Upcoming courses -->
+                    <div class="sidebar-category">
+                        <div class="category-title">
+                            <span>Related events</span>
+                            <ul class="icons-list">
+                                <li><a href="#" data-action="collapse"></a></li>
+                            </ul>
+                        </div>
+
+                        <div class="category-content">
+                            <ul class="media-list">
+                                <li class="media">
+                                    <div class="media-left">
+                                        <h5 class="no-margin text-center text-success">
+                                            02
+                                            <small class="display-block text-size-small no-margin">Nov</small>
+                                        </h5>
+                                    </div>
+
+                                    <div class="media-body">
+                                        <span class="text-semibold">Web development strategy</span> course by <a href="#">James Franko</a>
+                                        <ul class="list-inline list-inline-separate no-margin-bottom mt-5">
+                                            <li><span class="text-muted">120 hours</span></li>
+                                            <li>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-half text-size-base text-warning-300"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <li class="media">
+                                    <div class="media-left">
+                                        <h5 class="no-margin text-center text-success">
+                                            15
+                                            <small class="display-block text-size-small no-margin">Nov</small>
+                                        </h5>
+                                    </div>
+
+                                    <div class="media-body">
+                                        <span class="text-semibold">Business development</span> course by <a href="#">Jeremy Victorino</a>
+                                        <ul class="list-inline list-inline-separate no-margin-bottom mt-5">
+                                            <li><span class="text-muted">40 hours</span></li>
+                                            <li>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-half text-size-base text-warning-300"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <li class="media">
+                                    <div class="media-left">
+                                        <h5 class="no-margin text-center text-success">
+                                            01
+                                            <small class="display-block text-size-small no-margin">Dec</small>
+                                        </h5>
+                                    </div>
+
+                                    <div class="media-body">
+                                        <span class="text-semibold">Digital marketing</span> course by <a href="#">Monica Smith</a>
+                                        <ul class="list-inline list-inline-separate no-margin-bottom mt-5">
+                                            <li><span class="text-muted">100 hours</span></li>
+                                            <li>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <li class="media">
+                                    <div class="media-left">
+                                        <h5 class="no-margin text-center text-success">
+                                            15
+                                            <small class="display-block text-size-small no-margin">Dec</small>
+                                        </h5>
+                                    </div>
+
+                                    <div class="media-body">
+                                        <span class="text-semibold">User experience design</span> course by <a href="#">Buzz Brenson</a>
+                                        <ul class="list-inline list-inline-separate no-margin-bottom mt-5">
+                                            <li><span class="text-muted">90 hours</span></li>
+                                            <li>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-empty3 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-half text-size-base text-warning-300"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <li class="media">
+                                    <div class="media-left">
+                                        <h5 class="no-margin text-center text-success">
+                                            20
+                                            <small class="display-block text-size-small no-margin">Dec</small>
+                                        </h5>
+                                    </div>
+
+                                    <div class="media-body">
+                                        <span class="text-semibold">Digital painting</span> course by <a href="#">Zachary Willson</a>
+                                        <ul class="list-inline list-inline-separate no-margin-bottom mt-5">
+                                            <li><span class="text-muted">120 hours</span></li>
+                                            <li>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <li class="media">
+                                    <div class="media-left">
+                                        <h5 class="no-margin text-center text-success">
+                                            04
+                                            <small class="display-block text-size-small no-margin">Jan</small>
+                                        </h5>
+                                    </div>
+
+                                    <div class="media-body">
+                                        <span class="text-semibold">Financial analysis</span> course by <a href="#">Dori Laperriere</a>
+                                        <ul class="list-inline list-inline-separate no-margin-bottom mt-5">
+                                            <li><span class="text-muted">60 hours</span></li>
+                                            <li>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                                <i class="icon-star-full2 text-size-base text-warning-300"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /upcoming courses -->
+
+                </div>
+            </div>
+        </div>
+        <!-- /detached sidebar -->
+
+    </div>
+    <!-- /content area -->
+{% endblock %}
